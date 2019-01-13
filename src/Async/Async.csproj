@@ -14,6 +14,7 @@
     <PackageProjectUrl>https://github.com/WYishai/Utils.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/WYishai/Utils.NET.git</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>
