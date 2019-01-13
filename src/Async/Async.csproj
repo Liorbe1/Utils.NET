@@ -4,6 +4,16 @@
     <TargetFramework>netstandard1.0</TargetFramework>
     <AssemblyName>WYishai.Utils.Async</AssemblyName>
     <RootNamespace>WYishai.Utils.Async</RootNamespace>
+    <Authors>Yishai Wiesner</Authors>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://github.com/WYishai/Utils.NET/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/WYishai/Utils.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WYishai/Utils.NET.git</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
   </PropertyGroup>
 
 </Project>
