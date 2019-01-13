@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
-    <AssemblyName>WYishai.Utils.Async</AssemblyName>
-    <RootNamespace>WYishai.Utils.Async</RootNamespace>
+    <AssemblyName>CS.Utils.Async</AssemblyName>
+    <RootNamespace>CS.Utils.Async</RootNamespace>
     <Authors>Yishai Wiesner</Authors>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <FileVersion>0.1.0.0</FileVersion>

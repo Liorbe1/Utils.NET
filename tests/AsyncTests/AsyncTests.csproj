@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>WYishai.Utils.AsyncTests</AssemblyName>
+    <AssemblyName>CS.Utils.AsyncTests</AssemblyName>
 
-    <RootNamespace>WYishai.Utils.AsyncTests</RootNamespace>
+    <RootNamespace>CS.Utils.AsyncTests</RootNamespace>
 
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
-using WYishai.Utils.Async.Lock;
-using WYishai.Utils.AsyncTests.TestUtils;
+using CS.Utils.Async.Lock;
+using CS.Utils.AsyncTests.TestUtils;
 
-namespace WYishai.Utils.AsyncTests.Lock
+namespace CS.Utils.AsyncTests.Lock
 {
     public class AsyncLockerTests
     {
