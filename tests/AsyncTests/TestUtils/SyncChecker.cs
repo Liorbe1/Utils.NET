@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Threading;
 
-namespace WYishai.Utils.AsyncTests.TestUtils
+namespace CS.Utils.AsyncTests.TestUtils
 {
     internal class SyncChecker
     {

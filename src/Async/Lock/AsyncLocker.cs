@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WYishai.Utils.Async.Lock
+namespace CS.Utils.Async.Lock
 {
     public class AsyncLocker : IDisposable
     {
