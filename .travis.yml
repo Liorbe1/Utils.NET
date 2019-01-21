@@ -1,5 +1,5 @@
 language: csharp
-solution: WYishai.Utils.sln
+solution: CS.Utils.sln
 
 matrix:
   include:
@@ -19,5 +19,5 @@ matrix:
 install:
   - dotnet restore
 script:
-  - dotnet build WYishai.Utils.sln
-  - dotnet test WYishai.Utils.sln
+  - dotnet build CS.Utils.sln
+  - dotnet test CS.Utils.sln
