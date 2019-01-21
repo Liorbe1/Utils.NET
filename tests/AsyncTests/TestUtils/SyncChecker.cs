@@ -9,12 +9,18 @@ namespace CS.Utils.AsyncTests.TestUtils
 
         public void Enter()
         {
-            Assert.AreEqual(1, Interlocked.Increment(ref insideCounter));
+			if (Interlocked.Increment(ref insideCounter)!=1)
+			{
+				throw new AssertionException("This is not thread safe!");
+			}
         }
 
         public void Leave()
         {
-            Assert.AreEqual(0, Interlocked.Decrement(ref insideCounter));
+			if (Interlocked.Decrement(ref insideCounter) != 0)
+			{
+				throw new AssertionException("This is not thread safe!");
+			}
         }
     }
 }
