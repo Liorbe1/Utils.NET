@@ -40,7 +40,7 @@ namespace CS.Utils.AsyncTests.Lock
 			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
 			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
 			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
 
 			SyncChecker syncChecker = new SyncChecker();
 
@@ -168,17 +168,17 @@ namespace CS.Utils.AsyncTests.Lock
 			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
 			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
 			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
 
 			Assert.ThrowsAsync<TimeoutException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
 				{
-					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(() =>
+					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 					{
 						using (locker.Lock(TimeSpan.FromSeconds(0.1)))
 						{
-							Thread.Sleep(TimeSpan.FromSeconds(1));
+							await Task.Delay(TimeSpan.FromSeconds(1));
 						}
 					})).ToArray();
 
@@ -194,18 +194,18 @@ namespace CS.Utils.AsyncTests.Lock
 			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
 			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
 			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
 
 			Assert.ThrowsAsync<OperationCanceledException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
 				{
-					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(() =>
+					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 					{
 						CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 						using (locker.Lock(cancellationTokenSource.Token))
 						{
-							Thread.Sleep(TimeSpan.FromSeconds(1));
+							await Task.Delay(TimeSpan.FromSeconds(1));
 						}
 					})).ToArray();
 
@@ -221,18 +221,18 @@ namespace CS.Utils.AsyncTests.Lock
 			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
 			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
 			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
 
 			Assert.ThrowsAsync<TimeoutException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
 				{
-					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(() =>
+					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 					{
 						CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
 						using (locker.Lock(TimeSpan.FromSeconds(0.1), cancellationTokenSource.Token))
 						{
-							Thread.Sleep(TimeSpan.FromSeconds(1));
+							await Task.Delay(TimeSpan.FromSeconds(1));
 						}
 					})).ToArray();
 
@@ -244,12 +244,12 @@ namespace CS.Utils.AsyncTests.Lock
 			{
 				using (AsyncLocker locker = new AsyncLocker())
 				{
-					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(() =>
+					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 					{
 						CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 						using (locker.Lock(TimeSpan.FromSeconds(1), cancellationTokenSource.Token))
 						{
-							Thread.Sleep(TimeSpan.FromSeconds(1));
+							await Task.Delay(TimeSpan.FromSeconds(1));
 						}
 					})).ToArray();
 
