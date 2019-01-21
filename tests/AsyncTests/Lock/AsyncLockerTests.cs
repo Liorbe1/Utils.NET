@@ -36,6 +36,12 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public async Task TestThreadSafe()
 		{
+			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
+			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
+			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
+			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
+			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+
 			SyncChecker syncChecker = new SyncChecker();
 
 			using (AsyncLocker locker = new AsyncLocker())
@@ -158,6 +164,12 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public void TestTimeout()
 		{
+			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
+			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
+			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
+			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
+			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+
 			Assert.ThrowsAsync<TimeoutException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
@@ -178,6 +190,12 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public void TestCancellationToken()
 		{
+			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
+			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
+			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
+			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
+			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+
 			Assert.ThrowsAsync<OperationCanceledException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
@@ -199,6 +217,12 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public void TestTimeoutAndCancellationToken()
 		{
+			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
+			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
+			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
+			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
+			ThreadPool.SetMaxThreads(maxWorkerThreads * 2, maxIoThreads);
+
 			Assert.ThrowsAsync<TimeoutException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
