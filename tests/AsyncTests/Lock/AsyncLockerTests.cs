@@ -205,7 +205,7 @@ namespace CS.Utils.AsyncTests.Lock
 				{
 					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(() =>
 					{
-						CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(0.2));
+						CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
 						using (locker.Lock(TimeSpan.FromSeconds(0.1), cancellationTokenSource.Token))
 						{
 							Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -223,7 +223,7 @@ namespace CS.Utils.AsyncTests.Lock
 					Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(() =>
 					{
 						CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
-						using (locker.Lock(TimeSpan.FromSeconds(0.2), cancellationTokenSource.Token))
+						using (locker.Lock(TimeSpan.FromSeconds(1), cancellationTokenSource.Token))
 						{
 							Thread.Sleep(TimeSpan.FromSeconds(1));
 						}
