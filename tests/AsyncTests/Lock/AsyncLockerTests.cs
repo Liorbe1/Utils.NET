@@ -19,11 +19,12 @@ namespace CS.Utils.AsyncTests.Lock
 			{
 				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(async () =>
 				{
-					for (int i = 0; i < 10000; i++)
+					for (int i = 0; i < 100; i++)
 					{
 						using (await locker.LockAsync())
 						{
 							syncChecker.Enter();
+							await Task.Delay(TimeSpan.FromSeconds(0.001));
 							syncChecker.Leave();
 						}
 					}
@@ -46,13 +47,14 @@ namespace CS.Utils.AsyncTests.Lock
 
 			using (AsyncLocker locker = new AsyncLocker())
 			{
-				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(() =>
+				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(async () =>
 				{
-					for (int i = 0; i < 10000; i++)
+					for (int i = 0; i < 100; i++)
 					{
 						using (locker.Lock())
 						{
 							syncChecker.Enter();
+							await Task.Delay(TimeSpan.FromSeconds(0.001));
 							syncChecker.Leave();
 						}
 					}
@@ -69,11 +71,12 @@ namespace CS.Utils.AsyncTests.Lock
 
 			Assert.ThrowsAsync<AssertionException>(async () =>
 			{
-				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(() =>
+				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(async () =>
 				{
-					for (int i = 0; i < 10000; i++)
+					for (int i = 0; i < 100; i++)
 					{
 						syncChecker.Enter();
+						await Task.Delay(TimeSpan.FromSeconds(0.001));
 						syncChecker.Leave();
 					}
 				})).ToArray();
