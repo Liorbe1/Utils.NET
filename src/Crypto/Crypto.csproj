@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CS.Utils.Crypto</AssemblyName>
+    <RootNamespace>CS.Utils.Crypto</RootNamespace>
+    <Version>0.1.1</Version>
+    <Authors>Yishai Wiesner</Authors>
+    <RepositoryUrl>https://github.com/WYishai/Utils.NET.git</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/WYishai/Utils.NET/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/WYishai/Utils.NET</PackageProjectUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+</Project>
