@@ -11,6 +11,8 @@
     <PackageProjectUrl>https://github.com/WYishai/Utils.NET</PackageProjectUrl>
     <RepositoryType>GIT</RepositoryType>
     <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 </Project>
