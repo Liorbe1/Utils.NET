@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CS.Utils.Async.Lock
 {
-	public class AsyncLocker : IDisposable
+	public sealed class AsyncLocker : IDisposable
 	{
 		private readonly SemaphoreSlim semaphore;
 
@@ -97,10 +98,9 @@ namespace CS.Utils.Async.Lock
 		}
 	}
 
-	public class LockReleaser : IDisposable
+	public sealed class LockReleaser : IDisposable
 	{
-		private bool isDisposed = false;
-		private readonly AsyncLocker locker;
+		private AsyncLocker locker;
 
 		public LockReleaser(AsyncLocker locker)
 		{
@@ -109,10 +109,26 @@ namespace CS.Utils.Async.Lock
 
 		public void Dispose()
 		{
-			if (!isDisposed)
+			try
 			{
-				isDisposed = true;
-				locker.Release();
+				AsyncLocker locker = Interlocked.Exchange(ref this.locker, null);
+
+				if (locker == null)
+				{
+#if DEBUG
+					Debug.WriteLine($"Double free of lock detected. Maybe you disposed the {nameof(LockReleaser)} manualy inside using block?");
+#endif
+				}
+				else
+				{
+					locker?.Release();
+				}
+			}
+			catch (NullReferenceException)
+			{
+#if DEBUG
+				Debug.WriteLine($"Double free of lock detected. Maybe you disposed the {nameof(LockReleaser)} manualy inside using block?");
+#endif
 			}
 		}
 	}

@@ -260,5 +260,17 @@ namespace CS.Utils.AsyncTests.Lock
 				}
 			});
 		}
+
+		[Test]
+		public void TestDoubleRelease()
+		{
+			using (AsyncLocker locker = new AsyncLocker())
+			{
+				using (LockReleaser l = locker.Lock())
+				{
+					l.Dispose();
+				}
+			}
+		}
 	}
 }
