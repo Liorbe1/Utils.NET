@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CS.Utils.Crypto
 {
-	public struct HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable
+	public class HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable
 	{
 		#region Operators
 		public static bool operator ==(HashResult a, HashResult b)
@@ -45,7 +45,7 @@ namespace CS.Utils.Crypto
 			}
 		}
 
-		public HashResult(byte[] hashBytes) : this()
+		public HashResult(byte[] hashBytes)
 		{
 			HashBytes = hashBytes;
 		}
