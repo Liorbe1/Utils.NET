@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace CS.Utils.Crypto
 {
-	public struct HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable
+	public class HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable
 	{
 		#region Operators
 		public static bool operator ==(HashResult a, HashResult b)
@@ -24,13 +25,15 @@ namespace CS.Utils.Crypto
 		}
 		public static implicit operator HashResult(byte[] hashBytes)
 		{
-			return new HashResult(hashBytes);
+			//TODO: discover the hash type by the string length
+			return new HashResult(default, hashBytes);
 		}
 		#endregion
 
 
 		private string _hashString;
 
+		public HashAlgorithmName HashAlgorithmName { get; }
 		public byte[] HashBytes { get; }
 		public string HashString
 		{
@@ -45,8 +48,9 @@ namespace CS.Utils.Crypto
 			}
 		}
 
-		public HashResult(byte[] hashBytes) : this()
+		public HashResult(HashAlgorithmName hashAlgorithmName, byte[] hashBytes)
 		{
+			HashAlgorithmName = hashAlgorithmName;
 			HashBytes = hashBytes;
 		}
 
@@ -58,14 +62,20 @@ namespace CS.Utils.Crypto
 		#region Operators Methods
 		public bool Equals(HashResult other)
 		{
-			return HashBytes.SequenceEqual(other.HashBytes);
+			return HashAlgorithmName.Equals(other.HashAlgorithmName) && HashBytes.SequenceEqual(other.HashBytes);
 		}
 		public override bool Equals(object obj)
 		{
-			return obj is HashResult ? Equals((HashResult)obj) : false;
+			HashResult otherHashResult = obj as HashResult;
+			return otherHashResult != null ? Equals(otherHashResult) : false;
 		}
 		public int CompareTo(HashResult other)
 		{
+			if (HashAlgorithmName != other.HashAlgorithmName)
+			{
+				return HashAlgorithmName.Name.CompareTo(other.HashAlgorithmName.Name);
+			}
+
 			if (HashBytes.Length != other.HashBytes.Length)
 			{
 				return HashBytes.Length.CompareTo(other.HashBytes.Length);
@@ -83,12 +93,13 @@ namespace CS.Utils.Crypto
 		}
 		public int CompareTo(object obj)
 		{
-			return obj is HashResult ? CompareTo((HashResult)obj) : 1;
+			HashResult otherHashResult = obj as HashResult;
+			return otherHashResult != null ? CompareTo(otherHashResult) : 1;
 		}
 
 		public override int GetHashCode()
 		{
-			return 175587528 + HashBytes.GetHashCode();
+			return 175587528 + HashAlgorithmName.GetHashCode() + HashBytes.GetHashCode();
 		}
 		#endregion
 	}
