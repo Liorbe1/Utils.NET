@@ -62,7 +62,8 @@ namespace CS.Utils.Crypto
 		}
 		public override bool Equals(object obj)
 		{
-			return obj is HashResult ? Equals((HashResult)obj) : false;
+			HashResult otherHashResult = obj as HashResult;
+			return otherHashResult != null ? Equals(otherHashResult) : false;
 		}
 		public int CompareTo(HashResult other)
 		{
@@ -83,7 +84,8 @@ namespace CS.Utils.Crypto
 		}
 		public int CompareTo(object obj)
 		{
-			return obj is HashResult ? CompareTo((HashResult)obj) : 1;
+			HashResult otherHashResult = obj as HashResult;
+			return otherHashResult != null ? CompareTo(otherHashResult) : 1;
 		}
 
 		public override int GetHashCode()
