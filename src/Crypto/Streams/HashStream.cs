@@ -7,14 +7,16 @@ namespace CS.Utils.Crypto.Streams
 	{
 		public byte[] HashResult => hashCalculator.Hash;
 
+		public HashAlgorithmName HashAlgorithmName { get; }
 		private readonly HashAlgorithm hashCalculator;
 
-		public HashStream(Stream stream, HashAlgorithm hashCalculator, CryptoStreamMode mode) : base(stream, hashCalculator, mode)
+		public HashStream(Stream stream, CryptoStreamMode mode, HashAlgorithmName hashAlgorithmName, HashAlgorithm hashCalculator = null)
+			: base(stream, hashCalculator ?? (hashCalculator = HashAlgorithm.Create(hashAlgorithmName.Name)), mode)
 		{
+			HashAlgorithmName = hashAlgorithmName;
 			this.hashCalculator = hashCalculator;
 		}
-		public HashStream(Stream stream, HashAlgorithmName hashAlgorithmName, CryptoStreamMode mode) : this(stream, HashAlgorithm.Create(hashAlgorithmName.Name), mode) { }
-		public HashStream(HashAlgorithm hashCalculator) : this(Stream.Null, hashCalculator, CryptoStreamMode.Write) { }
-		public HashStream(HashAlgorithmName hashAlgorithmName) : this(Stream.Null, hashAlgorithmName, CryptoStreamMode.Write) { }
+		public HashStream(HashAlgorithmName hashAlgorithmName, HashAlgorithm hashCalculator = null)
+			: this(Stream.Null, CryptoStreamMode.Write, hashAlgorithmName, hashCalculator) { }
 	}
 }
