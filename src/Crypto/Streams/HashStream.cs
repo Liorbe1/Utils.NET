@@ -5,7 +5,7 @@ namespace CS.Utils.Crypto.Streams
 {
 	public class HashStream : CryptoStream
 	{
-		public byte[] HashResult => hashCalculator.Hash;
+		public HashResult HashResult => new HashResult(HashAlgorithmName, hashCalculator.Hash);
 
 		public HashAlgorithmName HashAlgorithmName { get; }
 		private readonly HashAlgorithm hashCalculator;
