@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace CS.Utils.Crypto
 {
@@ -24,13 +25,15 @@ namespace CS.Utils.Crypto
 		}
 		public static implicit operator HashResult(byte[] hashBytes)
 		{
-			return new HashResult(hashBytes);
+			//TODO: discover the hash type by the string length
+			return new HashResult(default, hashBytes);
 		}
 		#endregion
 
 
 		private string _hashString;
 
+		public HashAlgorithmName HashAlgorithmName { get; }
 		public byte[] HashBytes { get; }
 		public string HashString
 		{
@@ -45,8 +48,9 @@ namespace CS.Utils.Crypto
 			}
 		}
 
-		public HashResult(byte[] hashBytes)
+		public HashResult(HashAlgorithmName hashAlgorithmName, byte[] hashBytes)
 		{
+			HashAlgorithmName = hashAlgorithmName;
 			HashBytes = hashBytes;
 		}
 
@@ -58,7 +62,7 @@ namespace CS.Utils.Crypto
 		#region Operators Methods
 		public bool Equals(HashResult other)
 		{
-			return HashBytes.SequenceEqual(other.HashBytes);
+			return HashAlgorithmName.Equals(other.HashAlgorithmName) && HashBytes.SequenceEqual(other.HashBytes);
 		}
 		public override bool Equals(object obj)
 		{
@@ -67,6 +71,11 @@ namespace CS.Utils.Crypto
 		}
 		public int CompareTo(HashResult other)
 		{
+			if (HashAlgorithmName != other.HashAlgorithmName)
+			{
+				return HashAlgorithmName.Name.CompareTo(other.HashAlgorithmName.Name);
+			}
+
 			if (HashBytes.Length != other.HashBytes.Length)
 			{
 				return HashBytes.Length.CompareTo(other.HashBytes.Length);
@@ -90,7 +99,7 @@ namespace CS.Utils.Crypto
 
 		public override int GetHashCode()
 		{
-			return 175587528 + HashBytes.GetHashCode();
+			return 175587528 + HashAlgorithmName.GetHashCode() + HashBytes.GetHashCode();
 		}
 		#endregion
 	}
