@@ -1,4 +1,5 @@
-﻿using CS.Utils.Crypto.Streams;
+﻿using CryptoTests.TestUtils;
+using CS.Utils.Crypto.Streams;
 using NUnit.Framework;
 using System.IO;
 using System.Security.Cryptography;
@@ -25,56 +26,90 @@ namespace CryptoTests.Streams
 		{
 			FileInfo fileInfo = new FileInfo(GetType().Assembly.Location);
 			byte[] hash;
-			using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (FileStream fileStream = fileInfo.OpenRead())
 			using (HashAlgorithm hashCalculator = HashAlgorithm.Create(HashAlgorithmName.Name))
 			{
 				hash = hashCalculator.ComputeHash(fileStream);
 			}
 
-			using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (HashStream hashStream = new HashStream(fileStream, HashAlgorithmName, CryptoStreamMode.Read))
+			HashStream hashStream;
+			using (FileStream fileStream = fileInfo.OpenRead())
+			using (RandomReadNumberStream randomReadStream = new RandomReadNumberStream(fileStream))
+			using (hashStream = new HashStream(randomReadStream, CryptoStreamMode.Read, HashAlgorithmName))
 			{
 				hashStream.CopyTo(Stream.Null);
-				Assert.AreEqual(hash, hashStream.HashResult);
 			}
+			Assert.AreEqual(hash, hashStream.HashResult.HashBytes);
 
-			using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (HashStream hashStream = new HashStream(Stream.Null, HashAlgorithmName, CryptoStreamMode.Write))
+			using (FileStream fileStream = fileInfo.OpenRead())
+			using (RandomReadNumberStream randomReadStream = new RandomReadNumberStream(fileStream))
+			using (hashStream = new HashStream(Stream.Null, CryptoStreamMode.Write, HashAlgorithmName))
 			{
-				fileStream.CopyTo(hashStream);
-				hashStream.FlushFinalBlock();
-				Assert.AreEqual(hash, hashStream.HashResult);
+				randomReadStream.CopyTo(hashStream);
 			}
-
-			return;
+			Assert.AreEqual(hash, hashStream.HashResult.HashBytes);
 		}
 		[Test]
-		public async Task TestAsyncHashCalculation()
+		public async Task TestHashCalculationAsync()
 		{
 			FileInfo fileInfo = new FileInfo(GetType().Assembly.Location);
 			byte[] hash;
-			using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (FileStream fileStream = fileInfo.OpenRead())
 			using (HashAlgorithm hashCalculator = HashAlgorithm.Create(HashAlgorithmName.Name))
 			{
 				hash = hashCalculator.ComputeHash(fileStream);
 			}
 
-			using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (HashStream hashStream = new HashStream(fileStream, HashAlgorithmName, CryptoStreamMode.Read))
+			HashStream hashStream;
+			using (FileStream fileStream = fileInfo.OpenRead())
+			using (RandomReadNumberStream randomReadStream = new RandomReadNumberStream(fileStream))
+			using (hashStream = new HashStream(randomReadStream, CryptoStreamMode.Read, HashAlgorithmName))
 			{
 				await hashStream.CopyToAsync(Stream.Null);
-				Assert.AreEqual(hash, hashStream.HashResult);
 			}
+			Assert.AreEqual(hash, hashStream.HashResult.HashBytes);
 
-			using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (HashStream hashStream = new HashStream(Stream.Null, HashAlgorithmName, CryptoStreamMode.Write))
+			using (FileStream fileStream = fileInfo.OpenRead())
+			using (RandomReadNumberStream randomReadStream = new RandomReadNumberStream(fileStream))
+			using (hashStream = new HashStream(Stream.Null, CryptoStreamMode.Write, HashAlgorithmName))
 			{
-				await fileStream.CopyToAsync(hashStream);
-				hashStream.FlushFinalBlock();
-				Assert.AreEqual(hash, hashStream.HashResult);
+				await randomReadStream.CopyToAsync(hashStream);
+			}
+			Assert.AreEqual(hash, hashStream.HashResult.HashBytes);
+		}
+		[Test]
+		public async Task TestNoStreamConstructor()
+		{
+			FileInfo fileInfo = new FileInfo(GetType().Assembly.Location);
+			HashStream hashStream1, hashStream2;
+
+			using (FileStream fileStream = fileInfo.OpenRead())
+			using (hashStream1 = new HashStream(fileStream, CryptoStreamMode.Read, HashAlgorithmName))
+			using (hashStream2 = new HashStream(HashAlgorithmName))
+			{
+				await hashStream1.CopyToAsync(Stream.Null);
+				fileStream.Seek(0, SeekOrigin.Begin);
+				await fileStream.CopyToAsync(hashStream2);
 			}
 
-			return;
+			Assert.AreEqual(hashStream1.HashResult, hashStream2.HashResult);
+		}
+		[Test]
+		public async Task TestNoHashAlgorithmConstructor()
+		{
+			FileInfo fileInfo = new FileInfo(GetType().Assembly.Location);
+			HashStream hashStream1, hashStream2;
+
+			using (FileStream fileStream = fileInfo.OpenRead())
+			using (hashStream1 = new HashStream(HashAlgorithmName, HashAlgorithm.Create(HashAlgorithmName.Name)))
+			using (hashStream2 = new HashStream(HashAlgorithmName))
+			{
+				await fileStream.CopyToAsync(hashStream1);
+				fileStream.Seek(0, SeekOrigin.Begin);
+				await fileStream.CopyToAsync(hashStream2);
+			}
+
+			Assert.AreEqual(hashStream1.HashResult, hashStream2.HashResult);
 		}
 	}
 }
