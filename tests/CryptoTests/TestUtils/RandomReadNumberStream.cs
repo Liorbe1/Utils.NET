@@ -46,7 +46,7 @@ namespace CryptoTests.TestUtils
 			count = random.Next(1, count);
 			return baseStream.ReadAsync(buffer, offset, count, cancellationToken);
 		}
-		public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+		public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			buffer = buffer.Slice(0, random.Next(1, buffer.Length));
 			return base.ReadAsync(buffer, cancellationToken);
