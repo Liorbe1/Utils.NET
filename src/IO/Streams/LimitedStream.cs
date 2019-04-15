@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Types.BytesSize;
 
 namespace CS.Utils.IO.Streams
 {
-	class LimitedStream : WrapStream
+	public class LimitedStream : WrapStream
 	{
 		public override bool CanSeek => false;
 		public override bool CanWrite => false;
