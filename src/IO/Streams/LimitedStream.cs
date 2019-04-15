@@ -34,6 +34,20 @@ namespace CS.Utils.IO.Streams
 			this.readedBytes += readedBytes;
 			return readedBytes;
 		}
+		public override int ReadByte()
+		{
+			if ((Limit - this.readedBytes).Bytes > 0)
+			{
+				int b = base.ReadByte();
+				if (b != -1)
+				{
+					readedBytes += 1;
+					return b;
+				}
+			}
+
+			return -1;
+		}
 		public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
 		{
 			int bytesToRead = (int)Math.Min(count, (Limit - this.readedBytes).Bytes);
@@ -46,6 +60,10 @@ namespace CS.Utils.IO.Streams
 			throw new NotSupportedException();
 		}
 		public override void Write(byte[] buffer, int offset, int count)
+		{
+			throw new NotSupportedException();
+		}
+		public override void WriteByte(byte value)
 		{
 			throw new NotSupportedException();
 		}

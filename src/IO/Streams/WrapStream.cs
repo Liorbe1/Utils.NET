@@ -31,10 +31,12 @@ namespace CS.Utils.IO.Streams
 		public override void SetLength(long value) => baseStream.SetLength(value);
 		public override long Seek(long offset, SeekOrigin origin) => baseStream.Seek(offset, origin);
 		public override int Read(byte[] buffer, int offset, int count) => baseStream.Read(buffer, offset, count);
+		public override int ReadByte() => baseStream.ReadByte();
 		public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => baseStream.ReadAsync(buffer, offset, count, cancellationToken);
 		public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state) => baseStream.BeginRead(buffer, offset, count, callback, state);
 		public override int EndRead(IAsyncResult asyncResult) => baseStream.EndRead(asyncResult);
 		public override void Write(byte[] buffer, int offset, int count) => baseStream.Write(buffer, offset, count);
+		public override void WriteByte(byte value) => baseStream.WriteByte(value);
 		public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => baseStream.WriteAsync(buffer, offset, count, cancellationToken);
 		public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback callback, object state) => baseStream.BeginWrite(buffer, offset, count, callback, state);
 		public override void EndWrite(IAsyncResult asyncResult) => baseStream.EndWrite(asyncResult);
