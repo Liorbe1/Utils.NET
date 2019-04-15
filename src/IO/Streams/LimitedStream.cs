@@ -40,8 +40,8 @@ namespace CS.Utils.IO.Streams
 				if (b != -1)
 				{
 					readedBytes += 1;
-					return b;
 				}
+				return b;
 			}
 
 			return -1;
