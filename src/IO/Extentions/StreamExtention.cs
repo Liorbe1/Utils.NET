@@ -59,14 +59,14 @@ namespace CS.Utils.IO.Extentions
 		}
 		public static byte[] ReadMax(this Stream stream, Size limit, Size? estimatedSize = null)
 		{
-			using (LimitedStream limitedStream = new LimitedStream(stream, limit))
+			using (LimitedStream limitedStream = new LimitedStream(stream, limit, leaveOpen: true))
 			{
 				return limitedStream.ReadToEnd(estimatedSize);
 			}
 		}
 		public static async Task<byte[]> ReadMaxAsync(this Stream stream, Size limit, Size? estimatedSize = null)
 		{
-			using (LimitedStream limitedStream = new LimitedStream(stream, limit))
+			using (LimitedStream limitedStream = new LimitedStream(stream, limit, leaveOpen: true))
 			{
 				return await limitedStream.ReadToEndAsync(estimatedSize);
 			}
