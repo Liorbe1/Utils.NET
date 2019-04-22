@@ -22,6 +22,7 @@ namespace CS.Utils.Async.Extentions
 				else
 				{
 					timeoutCancellationTokenSource.Cancel();
+					await task;
 				}
 			}
 		}
