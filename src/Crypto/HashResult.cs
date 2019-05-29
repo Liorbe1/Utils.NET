@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 
 namespace CS.Utils.Crypto
 {
-	public class HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable
+	[Serializable]
+	public class HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable, ISerializable
 	{
 		#region Operators
 		public static bool operator ==(HashResult a, HashResult b)
@@ -15,7 +17,7 @@ namespace CS.Utils.Crypto
 		{
 			return !a.Equals(b);
 		}
-		public static explicit operator byte[] (HashResult hashResult)
+		public static explicit operator byte[](HashResult hashResult)
 		{
 			return hashResult.HashBytes;
 		}
@@ -53,10 +55,21 @@ namespace CS.Utils.Crypto
 			HashAlgorithmName = hashAlgorithmName;
 			HashBytes = hashBytes;
 		}
+		public HashResult(SerializationInfo info, StreamingContext context)
+		{
+			HashAlgorithmName = new HashAlgorithmName(info.GetString(nameof(HashAlgorithmName)));
+			HashBytes = (byte[])info.GetValue(nameof(HashBytes), typeof(byte[]));
+		}
 
 		public override string ToString()
 		{
 			return HashString;
+		}
+
+		public void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue(nameof(HashAlgorithmName), HashAlgorithmName.Name);
+			info.AddValue(nameof(HashBytes), HashBytes);
 		}
 
 		#region Operators Methods
