@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Async\Async.csproj" />
+    <ProjectReference Include="..\..\src\IO\IO.csproj" />
   </ItemGroup>
 
 </Project>
