@@ -26,16 +26,13 @@ namespace CS.Utils.AsyncTests.Lock
 
 			using (AsyncLocker locker = new AsyncLocker())
 			{
-				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(async () =>
+				Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 				{
-					for (int i = 0; i < 100; i++)
+					using (locker.Lock())
 					{
-						using (await locker.LockAsync())
-						{
-							syncChecker.Enter();
-							await Task.Delay(TimeSpan.FromSeconds(0.001));
-							syncChecker.Leave();
-						}
+						syncChecker.Enter();
+						await Task.Delay(TimeSpan.FromSeconds(1));
+						syncChecker.Leave();
 					}
 				})).ToArray();
 
@@ -50,16 +47,13 @@ namespace CS.Utils.AsyncTests.Lock
 
 			using (AsyncLocker locker = new AsyncLocker())
 			{
-				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(async () =>
+				Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 				{
-					for (int i = 0; i < 100; i++)
+					using (locker.Lock())
 					{
-						using (locker.Lock())
-						{
-							syncChecker.Enter();
-							await Task.Delay(TimeSpan.FromSeconds(0.001));
-							syncChecker.Leave();
-						}
+						syncChecker.Enter();
+						await Task.Delay(TimeSpan.FromSeconds(1));
+						syncChecker.Leave();
 					}
 				})).ToArray();
 
@@ -74,14 +68,11 @@ namespace CS.Utils.AsyncTests.Lock
 
 			Assert.ThrowsAsync<AssertionException>(async () =>
 			{
-				Task[] tasks = Enumerable.Range(0, 10).Select(x => Task.Run(async () =>
+				Task[] tasks = Enumerable.Range(0, 2).Select(x => Task.Run(async () =>
 				{
-					for (int i = 0; i < 100; i++)
-					{
-						syncChecker.Enter();
-						await Task.Delay(TimeSpan.FromSeconds(0.001));
-						syncChecker.Leave();
-					}
+					syncChecker.Enter();
+					await Task.Delay(TimeSpan.FromSeconds(0.5));
+					syncChecker.Leave();
 				})).ToArray();
 
 				await Task.WhenAll(tasks);
@@ -170,12 +161,6 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public void TestTimeout()
 		{
-			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
-			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
-			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
-			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
-
 			Assert.ThrowsAsync<TimeoutException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
@@ -196,12 +181,6 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public void TestCancellationToken()
 		{
-			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
-			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
-			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
-			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
-
 			Assert.ThrowsAsync<OperationCanceledException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
@@ -223,12 +202,6 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public void TestTimeoutAndCancellationToken()
 		{
-			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
-			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
-			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
-			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
-
 			Assert.ThrowsAsync<TimeoutException>(async () =>
 			{
 				using (AsyncLocker locker = new AsyncLocker())
