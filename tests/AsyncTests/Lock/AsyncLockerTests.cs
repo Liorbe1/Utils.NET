@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CS.Utils.AsyncTests.Lock
 {
+	[Parallelizable(ParallelScope.All)]
 	[TestFixture]
 	internal class AsyncLockerTests
 	{

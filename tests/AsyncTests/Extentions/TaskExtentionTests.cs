@@ -6,8 +6,9 @@ using NUnit.Framework;
 
 namespace CS.Utils.AsyncTests.Extentions
 {
+	[Parallelizable(ParallelScope.All)]
 	[TestFixture]
-	internal class TestExtentionTests
+	internal class TaskExtentionTests
 	{
 		[Test]
 		public async Task TestSetTimeout()
