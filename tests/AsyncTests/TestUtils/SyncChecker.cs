@@ -1,26 +1,26 @@
-﻿using NUnit.Framework;
-using System.Threading;
+﻿using System.Threading;
+using NUnit.Framework;
 
 namespace CS.Utils.AsyncTests.TestUtils
 {
-    internal class SyncChecker
-    {
-        private int insideCounter = 0;
+	internal class SyncChecker
+	{
+		private int insideCounter = 0;
 
-        public void Enter()
-        {
-			if (Interlocked.Increment(ref insideCounter)!=1)
+		public void Enter()
+		{
+			if (Interlocked.Increment(ref insideCounter) != 1)
 			{
 				throw new AssertionException("This is not thread safe!");
 			}
-        }
+		}
 
-        public void Leave()
-        {
+		public void Leave()
+		{
 			if (Interlocked.Decrement(ref insideCounter) != 0)
 			{
 				throw new AssertionException("This is not thread safe!");
 			}
-        }
-    }
+		}
+	}
 }

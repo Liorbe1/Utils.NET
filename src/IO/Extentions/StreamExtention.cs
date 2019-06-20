@@ -79,6 +79,5 @@ namespace CS.Utils.IO.Extentions
 		{
 			return stream.WriteAsync(buffer, 0, buffer.Length);
 		}
-
 	}
 }

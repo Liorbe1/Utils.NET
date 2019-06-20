@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CS.Utils.AsyncTests.Lock
 {
-	public class AsyncLockerTests
+	[TestFixture]
+	internal class AsyncLockerTests
 	{
 		[Test]
 		public async Task TestThreadSafeAsync()
