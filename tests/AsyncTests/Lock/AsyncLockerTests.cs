@@ -12,6 +12,13 @@ namespace CS.Utils.AsyncTests.Lock
 	[TestFixture]
 	internal class AsyncLockerTests
 	{
+		[SetUp]
+		public void SetUp()
+		{
+			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
+			ThreadPool.SetMinThreads(Math.Max(4, minWorkerThreads), Math.Max(4, minIoThreads));
+		}
+
 		[Test]
 		public async Task TestThreadSafeAsync()
 		{
@@ -39,12 +46,6 @@ namespace CS.Utils.AsyncTests.Lock
 		[Test]
 		public async Task TestThreadSafe()
 		{
-			ThreadPool.GetMaxThreads(out int maxWorkerThreads, out int maxIoThreads);
-			ThreadPool.GetMinThreads(out int minWorkerThreads, out int minIoThreads);
-			Console.WriteLine($"Max\tworker threads: {maxWorkerThreads} io threads: {maxIoThreads}");
-			Console.WriteLine($"Min\tworker threads: {minWorkerThreads} io threads: {minIoThreads}");
-			ThreadPool.SetMinThreads(minWorkerThreads * 2, minIoThreads);
-
 			SyncChecker syncChecker = new SyncChecker();
 
 			using (AsyncLocker locker = new AsyncLocker())
