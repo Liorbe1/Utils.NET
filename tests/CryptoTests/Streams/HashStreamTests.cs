@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using CS.Utils.Crypto.Streams;
+using CS.Utils.IO.Streams;
 using NUnit.Framework;
 
 namespace CryptoTests.Streams
