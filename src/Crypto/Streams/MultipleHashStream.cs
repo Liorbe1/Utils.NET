@@ -18,14 +18,8 @@ namespace CS.Utils.Crypto.Streams
 		public override long Position { get => baseStream.Position; set => baseStream.Position = value; }
 		public override int ReadTimeout { get => baseStream.ReadTimeout; set => baseStream.ReadTimeout = value; }
 		public override int WriteTimeout { get => baseStream.WriteTimeout; set => baseStream.WriteTimeout = value; }
-		public bool HasFlushedFinalBlock
-		{
-			get
-			{
-				return readHashCalculators.Values.All(hashCalculator => hashCalculator.HasFlushedFinalBlock) &&
+		public bool HasFlushedFinalBlock => readHashCalculators.Values.All(hashCalculator => hashCalculator.HasFlushedFinalBlock) &&
 					writeHashCalculators.Values.All(hashCalculator => hashCalculator.HasFlushedFinalBlock);
-			}
-		}
 		public ReadWriteMode ReadWriteMode { get; }
 
 		private bool disposed = false;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CS.Utils.Async.Extentions;
 using CS.Utils.Async.Utils;
 using CS.Utils.AsyncTests.TestUtils;
 using CS.Utils.IO.Extentions;

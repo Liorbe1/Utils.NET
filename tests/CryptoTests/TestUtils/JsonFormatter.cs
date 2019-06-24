@@ -15,7 +15,7 @@ namespace CS.Utils.CryptoTests.TestUtils
 
 		public JsonFormatter()
 		{
-			var settings = new JsonSerializerSettings()
+			JsonSerializerSettings settings = new JsonSerializerSettings()
 			{
 				ContractResolver = new DefaultContractResolver
 				{
@@ -30,13 +30,13 @@ namespace CS.Utils.CryptoTests.TestUtils
 
 		public object Deserialize(Stream serializationStream)
 		{
-			var reader = new JsonTextReader(new StreamReader(serializationStream));
+			JsonTextReader reader = new JsonTextReader(new StreamReader(serializationStream));
 			return serializer.Deserialize(reader);
 		}
 
 		public void Serialize(Stream serializationStream, object graph)
 		{
-			var writer = new JsonTextWriter(new StreamWriter(serializationStream));
+			JsonTextWriter writer = new JsonTextWriter(new StreamWriter(serializationStream));
 			serializer.Serialize(writer, graph);
 			writer.Flush();
 		}

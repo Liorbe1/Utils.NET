@@ -1,10 +1,10 @@
-﻿using CS.Utils.Async.Lock;
-using CS.Utils.AsyncTests.TestUtils;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CS.Utils.Async.Lock;
+using CS.Utils.AsyncTests.TestUtils;
+using NUnit.Framework;
 
 namespace CS.Utils.AsyncTests.Lock
 {
