@@ -34,7 +34,7 @@ namespace CS.Utils.IO.Streams
 		}
 		public override int ReadByte()
 		{
-			if ((Limit - this.readedBytes).Bytes > 0)
+			if ((Limit - readedBytes).Bytes > 0)
 			{
 				int b = base.ReadByte();
 				if (b != -1)

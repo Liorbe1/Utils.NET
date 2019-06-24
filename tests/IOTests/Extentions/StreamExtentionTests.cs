@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using NUnit.Framework;
-using CS.Utils.IO.Extentions;
-using Types.BytesSize;
+﻿using System.IO;
 using System.Threading.Tasks;
+using CS.Utils.IO.Extentions;
+using NUnit.Framework;
 
 namespace CS.Utils.IOTests.Extentions
 {
 	[TestFixture]
-	class StreamExtentionTests
+	internal class StreamExtentionTests
 	{
 		private readonly FileInfo readFileInfo = new FileInfo(typeof(StreamExtentionTests).Assembly.Location);
 

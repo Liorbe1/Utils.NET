@@ -9,22 +9,10 @@ namespace CS.Utils.Crypto
 	public class HashResult : IEquatable<HashResult>, IComparable<HashResult>, IComparable, ISerializable
 	{
 		#region Operators
-		public static bool operator ==(HashResult a, HashResult b)
-		{
-			return a.Equals(b);
-		}
-		public static bool operator !=(HashResult a, HashResult b)
-		{
-			return !a.Equals(b);
-		}
-		public static explicit operator byte[](HashResult hashResult)
-		{
-			return hashResult.HashBytes;
-		}
-		public static explicit operator string(HashResult hashResult)
-		{
-			return hashResult.HashString;
-		}
+		public static bool operator ==(HashResult a, HashResult b) => a.Equals(b);
+		public static bool operator !=(HashResult a, HashResult b) => !a.Equals(b);
+		public static explicit operator byte[](HashResult hashResult) => hashResult.HashBytes;
+		public static explicit operator string(HashResult hashResult) => hashResult.HashString;
 		public static implicit operator HashResult(byte[] hashBytes)
 		{
 			//TODO: discover the hash type by the string length
