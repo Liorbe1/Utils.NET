@@ -1,9 +1,8 @@
-﻿using CryptoTests.TestUtils;
-using CS.Utils.Crypto.Streams;
-using NUnit.Framework;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using CS.Utils.Crypto.Streams;
+using NUnit.Framework;
 
 namespace CryptoTests.Streams
 {
