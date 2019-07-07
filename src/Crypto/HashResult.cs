@@ -63,7 +63,7 @@ namespace CS.Utils.Crypto
 		#region Operators Methods
 		public bool Equals(HashResult other)
 		{
-			if (other == null)
+			if (other is null)
 			{
 				return false;
 			}
