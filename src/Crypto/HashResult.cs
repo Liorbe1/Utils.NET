@@ -63,12 +63,16 @@ namespace CS.Utils.Crypto
 		#region Operators Methods
 		public bool Equals(HashResult other)
 		{
+			if (other == null)
+			{
+				return false;
+			}
+			
 			return HashAlgorithmName.Equals(other.HashAlgorithmName) && HashBytes.SequenceEqual(other.HashBytes);
 		}
 		public override bool Equals(object obj)
 		{
-			HashResult otherHashResult = obj as HashResult;
-			return otherHashResult != null ? Equals(otherHashResult) : false;
+			return obj is HashResult otherHashResult && Equals(otherHashResult);
 		}
 		public int CompareTo(HashResult other)
 		{
